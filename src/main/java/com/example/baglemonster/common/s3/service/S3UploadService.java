@@ -39,6 +39,8 @@ public class S3UploadService {
 
 	// AWS S3 삭제
 	public void deleteFile(String mediaUrl) {
+		if(mediaUrl == null) return;
+
 		StringBuilder address = new StringBuilder("https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/");
 		String fileName = mediaUrl.replace(address, "");
 		String decodedUrl = null;

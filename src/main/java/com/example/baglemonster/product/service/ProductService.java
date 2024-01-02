@@ -36,7 +36,7 @@ public class ProductService {
         }
 
         String productPictureUrl;
-        if (file.getSize() == 0) {
+        if (file == null) {
             productPictureUrl = null;
         } else {
             productPictureUrl = s3UploadService.uploadFile(file);
@@ -77,7 +77,7 @@ public class ProductService {
         String productPictureUrl = currentPictureUrl;
         if (file != null) {
             s3UploadService.deleteFile(currentPictureUrl);
-            productPictureUrl  = s3UploadService.uploadFile(file);
+            productPictureUrl = s3UploadService.uploadFile(file);
         }
 
         product.editProduct(productRequestDto, productPictureUrl);

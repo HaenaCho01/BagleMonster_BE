@@ -1,6 +1,5 @@
 package com.example.baglemonster.cart.service;
 
-import com.example.baglemonster.cart.dto.OrderResponseDto;
 import com.example.baglemonster.cart.dto.OrdersResponseDto;
 import com.example.baglemonster.cart.entity.Cart;
 import com.example.baglemonster.cart.entity.StoreStatusEnum;
@@ -39,7 +38,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderResponseDto selectOrder(User user, Long storeId, Long orderId) {
+    public void readOrder(User user, Long storeId, Long orderId) {
         confirmStore(user, storeId);
 
         Cart order = getOrder(orderId);
@@ -48,8 +47,6 @@ public class OrderService {
             Notification notification = findNotification(order);
             notification.readNotification();
         }
-
-        return OrderResponseDto.of(getOrder(orderId));
     }
 
     @Transactional
@@ -85,7 +82,7 @@ public class OrderService {
     }
 
     private List<Cart> getOrders(Long storeId) {
-        return cartRepository.findByStoreIdAndStatusAndStoreStatusIn(storeId, true, List.of(StoreStatusEnum.NEWORDER, StoreStatusEnum.READ));
+        return cartRepository.findAllByStoreIdAndStatus(storeId, true);
     }
 
     private Cart getOrder(Long orderId) {
@@ -94,7 +91,7 @@ public class OrderService {
     }
 
     // id로 알림 찾기
-    private Notification findNotification (Cart order) {
+    private Notification findNotification(Cart order) {
         return notificationRepository.findByCart(order).orElseThrow(() ->
                 new IllegalArgumentException("선택한 알림은 존재하지 않습니다.")
         );

@@ -51,7 +51,7 @@ public class StoreService {
         }
 
         String storePictureUrl;
-        if (file.getSize() == 0) {
+        if (file == null) {
             storePictureUrl = null;
         } else {
             storePictureUrl = s3UploadService.uploadFile(file);
@@ -88,7 +88,7 @@ public class StoreService {
         String storePictureUrl = currentPictureUrl;
         if (file != null) {
             s3UploadService.deleteFile(currentPictureUrl);
-            storePictureUrl  = s3UploadService.uploadFile(file);
+            storePictureUrl = s3UploadService.uploadFile(file);
         }
 
         store.editStore(storeRequestDto, storePictureUrl);

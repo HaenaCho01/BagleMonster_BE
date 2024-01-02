@@ -17,7 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CartResponseDto {
     private Long cartId;
+    private Long storeId;
     private String storeName;
+    private String phone;
+    private String address;
     private List<CartProductResponseDto> products;
     private Integer totalPrice;
     private String storeStatus;
@@ -28,7 +31,10 @@ public class CartResponseDto {
         List<CartProduct> cartProducts = cart.getCartProducts();
         return CartResponseDto.builder()
                 .cartId(cart.getId())
+                .storeId(cart.getStore().getId())
                 .storeName(cart.getStore().getName())
+                .phone(cart.getStore().getPhone())
+                .address(cart.getStore().getAddress())
                 .products(cartProducts.stream().map(CartProductResponseDto::of).toList())
                 .totalPrice(cart.getTotalPrice())
                 .storeStatus(cart.getStoreStatus().getStatus())
